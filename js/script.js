@@ -113,9 +113,10 @@ window.addEventListener('load', () => {
   revealElements.forEach(elem => elem.classList.add('reveal'));
 });
 
-// Contact form submission (front-end simulation)
+// Contact form submission (creates mailto link for user's email client)
 contactForm.addEventListener('submit', event => {
   event.preventDefault();
+
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
   const message = document.getElementById('message').value.trim();
@@ -126,9 +127,31 @@ contactForm.addEventListener('submit', event => {
     return;
   }
 
-  formResponse.textContent = 'Thanks for your message! I will get back to you soon.';
+  // Create mailto URL with form data
+  const subject = encodeURIComponent(`Portfolio Contact - ${name}`);
+  const body = encodeURIComponent(
+    `Hello Kenneth,\n\n` +
+    `You received a new message from your portfolio website:\n\n` +
+    `Name: ${name}\n` +
+    `Email: ${email}\n\n` +
+    `Message:\n${message}\n\n` +
+    `Best regards,\nPortfolio Contact Form`
+  );
+
+  const mailtoUrl = `mailto:bulakenneth21@gmail.com?subject=${subject}&body=${body}`;
+
+  // Open user's default email client
+  window.location.href = mailtoUrl;
+
+  // Show success message
+  formResponse.textContent = 'Opening your email client... Click send to complete the message!';
   formResponse.style.color = '#7cffb2';
-  contactForm.reset();
+
+  // Reset form after a short delay
+  setTimeout(() => {
+    contactForm.reset();
+    formResponse.textContent = '';
+  }, 3000);
 });
 
 // Parallax background movement for hero

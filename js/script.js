@@ -1,4 +1,4 @@
-// Script for interactivity, scrolling animations, typing effect plus theme and preloader
+// Script for section-based navigation, typing effect plus theme and preloader
 
 const body = document.body;
 const navbar = document.getElementById('navbar');

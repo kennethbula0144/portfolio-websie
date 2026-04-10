@@ -113,46 +113,44 @@ window.addEventListener('load', () => {
   revealElements.forEach(elem => elem.classList.add('reveal'));
 });
 
-// Contact form submission (creates mailto link for user's email client)
-contactForm.addEventListener('submit', event => {
-  event.preventDefault();
+// Contact form submission using Outlook web compose
+if (contactForm && formResponse) {
+  contactForm.addEventListener('submit', event => {
+    event.preventDefault();
 
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-  if (!name || !email || !message) {
-    formResponse.textContent = 'Please fill in all fields.';
-    formResponse.style.color = '#ff7c7c';
-    return;
-  }
+    if (!name || !email || !message) {
+      formResponse.textContent = 'Please fill in all fields.';
+      formResponse.style.color = '#ff7c7c';
+      return;
+    }
 
-  // Create mailto URL with form data
-  const subject = encodeURIComponent(`Portfolio Contact - ${name}`);
-  const body = encodeURIComponent(
-    `Hello Kenneth,\n\n` +
-    `You received a new message from your portfolio website:\n\n` +
-    `Name: ${name}\n` +
-    `Email: ${email}\n\n` +
-    `Message:\n${message}\n\n` +
-    `Best regards,\nPortfolio Contact Form`
-  );
+    const subject = encodeURIComponent(`Portfolio Contact - ${name}`);
+    const body = encodeURIComponent(
+      `Hello Kenneth,%0D%0A%0D%0A` +
+      `You received a new message from your portfolio website.%0D%0A%0D%0A` +
+      `Name: ${name}%0D%0A` +
+      `Email: ${email}%0D%0A%0D%0A` +
+      `Message:%0D%0A${message}%0D%0A%0D%0A` +
+      `Best regards,%0D%0APortfolio Contact Form`
+    );
 
-  const mailtoUrl = `mailto:bulakenneth21@gmail.com?subject=${subject}&body=${body}`;
+    const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=bulakenneth21@gmail.com&subject=${subject}&body=${body}`;
+    const mailtoUrl = `mailto:bulakenneth21@gmail.com?subject=${subject}&body=${body}`;
 
-  // Open user's default email client
-  window.location.href = mailtoUrl;
+    formResponse.innerHTML =
+      'Opening Outlook compose window... If nothing happens, <a href="' + outlookUrl + '" target="_blank" rel="noreferrer">click here</a>.';
+    formResponse.style.color = '#7cffb2';
 
-  // Show success message
-  formResponse.textContent = 'Opening your email client... Click send to complete the message!';
-  formResponse.style.color = '#7cffb2';
-
-  // Reset form after a short delay
-  setTimeout(() => {
-    contactForm.reset();
-    formResponse.textContent = '';
-  }, 3000);
-});
+    window.open(outlookUrl, '_blank');
+    setTimeout(() => {
+      window.location.href = mailtoUrl;
+    }, 800);
+  });
+}
 
 // Parallax background movement for hero
 const hero = document.querySelector('.hero');

@@ -1,0 +1,28 @@
+{
+  "name": "kenneth-portfolio",
+  "version": "1.0.0",
+  "description": "Professional portfolio website for Kenneth Bula - 4th Year Computer Engineering Student",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.jsx"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "framer-motion": "^10.16.4",
+    "lucide-react": "^0.268.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^4.3.9",
+    "tailwindcss": "^3.3.0",
+    "postcss": "^8.4.24",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.42.0",
+    "eslint-plugin-react": "^7.32.2"
+  }
+}

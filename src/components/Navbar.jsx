@@ -30,9 +30,7 @@ const Navbar = ({ isDark, toggleTheme }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">KB</span>
-            </div>
+            <img src="/IMG_20260407_140650.png" alt="Kenneth Bula Logo" className="w-10 h-10 rounded-lg object-cover" />
             <span className="hidden sm:inline font-semibold text-gray-900 dark:text-white">
               Kenneth Bula
             </span>
@@ -48,7 +46,7 @@ const Navbar = ({ isDark, toggleTheme }) => {
                 whileHover={{ scale: 1.05 }}
               >
                 {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 group-hover:w-full transition-all duration-300" />
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-bark-blue-500 group-hover:w-full transition-all duration-300" />
               </motion.a>
             ))}
           </div>

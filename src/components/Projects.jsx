@@ -11,7 +11,7 @@ const Projects = () => {
       description:
         'A comprehensive marketplace platform featuring three user roles: clients for shopping, runners for delivery management, and store owners for selling. The app includes product browsing, real-time ordering systems, and personalized dashboards for each role.',
       tech: ['React', 'Supabase', 'Tailwind CSS', 'Real-Time Database'],
-      image: '🛍️',
+      image: '/Screenshot 2026-04-12 114215.png',
       link: 'https://pasabuy-bes.netlify.app',
       github: '#',
       color: 'from-blue-500 to-cyan-500',
@@ -35,7 +35,7 @@ const Projects = () => {
       description:
         'A dedicated platform showcasing Filipino cuisine, cooking processes, and cultural stories. Features content in Taglish, combining travel vlogging with food exploration to celebrate Filipino culinary heritage.',
       tech: ['React', 'Markdown', 'Firebase', 'Video Integration'],
-      image: '🍜',
+      image: '/Screenshot 2026-04-12 115301.png',
       link: 'https://filipinofoodvlog.netlify.app',
       github: '#',
       color: 'from-orange-500 to-red-500',
@@ -96,14 +96,22 @@ const Projects = () => {
                 <div className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-slate-700 h-full flex flex-col">
                   {/* Project Header with Image */}
                   <div className={`relative h-48 bg-gradient-to-br ${project.color} overflow-hidden`}>
-                    <motion.div
-                      className="absolute inset-0 flex items-center justify-center text-8xl"
-                      initial={{ scale: 1, rotate: 0 }}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {project.image}
-                    </motion.div>
+                    {project.image.startsWith('/') ? (
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <motion.div
+                        className="absolute inset-0 flex items-center justify-center text-8xl"
+                        initial={{ scale: 1, rotate: 0 }}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {project.image}
+                      </motion.div>
+                    )}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                   </div>
 

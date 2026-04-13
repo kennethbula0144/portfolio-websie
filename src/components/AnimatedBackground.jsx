@@ -3,85 +3,78 @@ import React, { useEffect, useRef } from 'react';
 const AnimatedBackground = ({ isDark }) => {
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
-  const animationIdRef = useRef(null);
+  const frameIdRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
-    
-    // Set canvas size
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) return;
 
-    // Particle class
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    // Particle system
+    const particles = [];
+    const particleCount = 80;
+
     class Particle {
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 1;
+        this.vy = (Math.random() - 0.5) * 1;
+        this.radius = Math.random() * 1.5 + 0.5;
+        this.alpha = Math.random() * 0.4 + 0.2;
       }
 
       update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+        this.x += this.vx;
+        this.y += this.vy;
 
-        // Wrap around edges
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
+        if (this.x - this.radius > width) this.x = -this.radius;
+        if (this.x + this.radius < 0) this.x = width + this.radius;
+        if (this.y - this.radius > height) this.y = -this.radius;
+        if (this.y + this.radius < 0) this.y = height + this.radius;
       }
 
-      draw() {
-        ctx.fillStyle = isDark 
-          ? `rgba(167, 139, 250, ${this.opacity})`
-          : `rgba(139, 92, 246, ${this.opacity * 0.6})`;
+      draw(ctx) {
+        ctx.fillStyle = isDark
+          ? `rgba(167, 139, 250, ${this.alpha})`
+          : `rgba(139, 92, 246, ${this.alpha * 0.7})`;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     // Initialize particles
-    const initParticles = () => {
-      particlesRef.current = [];
-      const particleCount = Math.floor((canvas.width * canvas.height) / 9000);
-      for (let i = 0; i < particleCount; i++) {
-        particlesRef.current.push(new Particle());
-      }
-    };
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+    particlesRef.current = particles;
 
-    initParticles();
+    // Draw connecting lines
+    const drawConnections = () => {
+      const maxDist = 150;
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
 
-    // Connect particles with lines
-    const connectParticles = () => {
-      const maxDistance = 150;
-      
-      for (let i = 0; i < particlesRef.current.length; i++) {
-        for (let j = i + 1; j < particlesRef.current.length; j++) {
-          const p1 = particlesRef.current[i];
-          const p2 = particlesRef.current[j];
-          const distance = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-
-          if (distance < maxDistance) {
-            const opacity = (1 - distance / maxDistance) * 0.3;
+          if (dist < maxDist) {
+            const opacity = (1 - dist / maxDist) * 0.2;
             ctx.strokeStyle = isDark
               ? `rgba(167, 139, 250, ${opacity})`
-              : `rgba(139, 92, 246, ${opacity * 0.4})`;
-            ctx.lineWidth = 1;
+              : `rgba(139, 92, 246, ${opacity * 0.5})`;
+            ctx.lineWidth = 0.8;
             ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
           }
         }
@@ -90,31 +83,35 @@ const AnimatedBackground = ({ isDark }) => {
 
     // Animation loop
     const animate = () => {
-      // Clear canvas with semi-transparent background for trailing effect
-      ctx.fillStyle = isDark
-        ? 'rgba(15, 23, 42, 0.1)'
-        : 'rgba(255, 255, 255, 0.1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = isDark ? 'rgba(15, 23, 42, 0.08)' : 'rgba(255, 255, 255, 0.08)';
+      ctx.fillRect(0, 0, width, height);
 
-      // Update and draw particles
-      particlesRef.current.forEach((particle) => {
-        particle.update();
-        particle.draw();
+      particles.forEach((p) => {
+        p.update();
+        p.draw(ctx);
       });
 
-      // Connect particles
-      connectParticles();
+      drawConnections();
 
-      animationIdRef.current = requestAnimationFrame(animate);
+      frameIdRef.current = requestAnimationFrame(animate);
     };
 
     animate();
 
-    // Cleanup
+    // Handle resize
+    const handleResize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    };
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
+      window.removeEventListener('resize', handleResize);
+      if (frameIdRef.current) {
+        cancelAnimationFrame(frameIdRef.current);
       }
     };
   }, [isDark]);
@@ -122,8 +119,13 @@ const AnimatedBackground = ({ isDark }) => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 0 }}
+      className="fixed inset-0 pointer-events-none w-full h-full"
+      style={{
+        display: 'block',
+        zIndex: 0,
+        top: 0,
+        left: 0,
+      }}
     />
   );
 };

@@ -141,7 +141,7 @@ const Footer = () => {
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-sm text-gray-400">
-            Built with <span className="text-pink-500">♥</span> using React, Tailwind CSS & Framer Motion
+            <span className="text-pink-500">♥</span>
           </p>
         </div>
       </motion.div>

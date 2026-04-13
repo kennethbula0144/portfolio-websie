@@ -60,7 +60,7 @@ const About = () => {
                   Professional Summary
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                  I'm a motivated and detail-oriented 4th-year Computer Engineering student at Eastern
+                  I'm a motivated and detail-oriented currently incoming 4th-year Computer Engineering student at Eastern
                   Samar State University, actively seeking internship opportunities to apply my academic
                   knowledge in real-world projects. With a passion for web development and system design,
                   I'm committed to leveraging my technical skills and problem-solving abilities to create

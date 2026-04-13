@@ -6,8 +6,8 @@ const LanguagesAndInterests = () => {
   const languages = [
     {
       name: 'English',
-      level: 'Fluent',
-      proficiency: 95,
+      level: 'Basic English',
+      proficiency: 50,
     },
     {
       name: 'Tagalog',

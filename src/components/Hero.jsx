@@ -83,7 +83,7 @@ const Hero = () => {
               variants={itemVariants}
               className="text-2xl sm:text-3xl text-gray-700 dark:text-gray-300 font-light mb-6"
             >
-              4th Year Computer Engineering Student
+              Incoming 4th Year Computer Engineering Student
             </motion.p>
 
             {/* Subtitle */}
@@ -160,7 +160,7 @@ const Hero = () => {
             className="flex justify-center lg:justify-end"
           >
             <motion.div
-              className="relative w-64 h-64 sm:w-80 sm:h-80"
+              className="relative w-72 h-72 sm:w-96 sm:h-96 lg:w-[450px] lg:h-[450px]"
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             >

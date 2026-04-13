@@ -8,6 +8,7 @@ import Education from './components/Education';
 import LanguagesAndInterests from './components/LanguagesAndInterests';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import AnimatedBackground from './components/AnimatedBackground';
 import { useTheme } from './hooks/useTheme';
 import './index.css';
 
@@ -26,7 +27,10 @@ function App() {
 
   return (
     <div className={isDark ? 'dark' : ''}>
-      <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors duration-300">
+      {/* Animated Background */}
+      <AnimatedBackground isDark={isDark} />
+      
+      <div className="relative z-10 min-h-screen bg-white/95 dark:bg-slate-900/95 transition-colors duration-300">
         {/* Navigation */}
         <Navbar isDark={isDark} toggleTheme={toggleTheme} />
 

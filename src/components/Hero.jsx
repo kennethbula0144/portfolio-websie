@@ -2,6 +2,18 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, Github, Mail, ExternalLink, Download } from 'lucide-react';
 
+// Facebook Icon Component
+const Facebook = ({ className }) => (
+  <svg 
+    className={className}
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 24 24" 
+    fill="currentColor"
+  >
+    <path d="M18.77,7.46H14.5v-1.9c0-.9.6-1.1,1-1.1h3V.5h-4.33C10.24.5,9.5,3.44,9.5,5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4Z"/>
+  </svg>
+);
+
 const Hero = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -150,6 +162,16 @@ const Hero = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Mail className="w-6 h-6" />
+              </motion.a>
+              <motion.a
+                href="https://www.facebook.com/kenn.bula.2025"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-gray-200 dark:bg-slate-700 hover:bg-purple-600 dark:hover:bg-purple-600 text-gray-900 dark:text-white hover:text-white transition-all"
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Facebook className="w-6 h-6" />
               </motion.a>
             </motion.div>
           </div>
